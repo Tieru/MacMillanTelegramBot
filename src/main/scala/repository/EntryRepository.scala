@@ -1,5 +1,0 @@
-package repository
-
-trait EntryRepository {
-
-}
