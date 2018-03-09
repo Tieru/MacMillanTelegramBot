@@ -1,11 +1,12 @@
 package repository
 
 import dictionary.Api
-import model.{NothingFound, WordEntry}
+import entity.{NothingFound, EntryResponse}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FlatSpec
 import repository.entry.impl.EntryRepositoryImpl
-import repository.entry.{EntryDataSource, RawEntry}
+import repository.entry.EntryDataSource
+import repository.entry.model.RawEntry
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
@@ -26,8 +27,8 @@ class EntryRepositorySpec extends FlatSpec with MockFactory {
 
     val result = Await.result(repository.getEntry(desiredWord), Duration.Inf)
     (dataSource.getEntry _).verify(desiredWord)
-    assert(result.isInstanceOf[WordEntry])
-    assert(result.asInstanceOf[WordEntry].word === desiredWord)
+    assert(result.isInstanceOf[EntryResponse])
+    assert(result.asInstanceOf[EntryResponse].word === desiredWord)
   }
 
   it should "return NothingFound when there is no words found" in {

@@ -1,8 +1,8 @@
 package repository.entry
 
-import model.{BotResponse, NothingFound, WordEntry}
+import entity.BotResponse
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 
 trait EntryRepository {
 

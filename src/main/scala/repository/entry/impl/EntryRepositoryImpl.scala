@@ -1,6 +1,6 @@
 package repository.entry.impl
 
-import model.{BotResponse, NothingFound, WordEntry}
+import entity.{BotResponse, NothingFound, EntryResponse}
 import repository.entry.EntryDataSource
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -10,7 +10,7 @@ class EntryRepositoryImpl(val dataSource: EntryDataSource)(implicit ec: Executio
   def getEntry(search: String): Future[BotResponse] = {
     dataSource.getEntry(search)
       .map {
-        case Some(word) => WordEntry(word.entryLabel)
+        case Some(word) => EntryResponse(word.entryLabel)
         case None => NothingFound()
       }
   }

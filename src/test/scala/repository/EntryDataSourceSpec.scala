@@ -21,15 +21,14 @@ class EntryDataSourceSpec extends FlatSpec with MockFactory with RawResourceLoad
 
     val requestedWord = "amazing"
     val mockResponse = rawResource("raw/entryAmazing.json")
-    (clientWrapper.getEntry _).expects(requestedWord, Api.AMERICAN, Api.XML)
-      .returning(Future.successful(mockResponse))
+    (clientWrapper.getEntry _).expects(requestedWord, Api.AMERICAN, Api.XML).returning(Future.successful(mockResponse))
 
     val result = Await.result(entryDataSource.getEntry(requestedWord), Duration.Inf).getOrElse(throw new AssertionFailure("DataSource should return a value"))
     assert(result.dictionaryCode == Api.AMERICAN)
-    assert(result.format == Api.XML)
     assert(result.entryLabel == requestedWord)
     assert(result.topics.isEmpty)
-    assert(!result.entryContent.isEmpty)
+    assert(result.entryContent != null)
+    assert(result.entryContent.id == requestedWord)
     assert(result.entryId == requestedWord)
   }
 

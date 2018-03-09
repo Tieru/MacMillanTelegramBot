@@ -1,5 +1,6 @@
-package repository.entry
+package repository.entry.model
 
+import entity.Topic
 import play.api.libs.json.{Json, OFormat}
 
 case class RawEntry

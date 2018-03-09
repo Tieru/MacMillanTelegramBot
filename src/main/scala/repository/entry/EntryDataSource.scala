@@ -1,5 +1,7 @@
 package repository.entry
 
+import repository.entry.model.RawEntry
+
 import scala.concurrent.Future
 
 trait EntryDataSource {

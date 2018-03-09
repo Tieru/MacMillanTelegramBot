@@ -1,4 +1,4 @@
-package repository.entry
+package entity
 
 import play.api.libs.json.{Json, OFormat}
 
