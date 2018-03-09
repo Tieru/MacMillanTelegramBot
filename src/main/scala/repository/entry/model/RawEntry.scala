@@ -1,6 +1,6 @@
 package repository.entry.model
 
-import entity.Topic
+import model.common.Topic
 import play.api.libs.json.{Json, OFormat}
 
 case class RawEntry

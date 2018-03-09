@@ -1,6 +1,7 @@
 package repository.entry.model
 
-import entity.{AdditionalEntryContent, Pronunciation, Sense}
+import entity.{Pronunciation, Sense}
+import model.common.{AdditionalEntryContent, Pronunciation, Sense}
 
 import scala.xml.Node
 

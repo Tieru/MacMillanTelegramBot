@@ -1,4 +1,4 @@
-package entity
+package model.common
 
 import play.api.libs.json.{Json, OFormat}
 

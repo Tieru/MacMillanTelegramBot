@@ -1,4 +1,4 @@
-package entity
+package model.response
 
 trait BotResponse {
 

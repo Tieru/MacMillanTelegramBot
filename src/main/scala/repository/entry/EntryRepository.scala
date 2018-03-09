@@ -1,12 +1,12 @@
 package repository.entry
 
-import entity.BotResponse
+import repository.entry.model.Entry
 
 import scala.concurrent.Future
 
 trait EntryRepository {
 
-  def getEntry(search: String): Future[BotResponse]
+  def getEntry(search: String): Future[Option[Entry]]
 
 }
 
