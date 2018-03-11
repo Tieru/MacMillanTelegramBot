@@ -4,10 +4,11 @@ import com.google.inject.Inject
 import model.common.Dictionary
 import model.common.Dictionary.Type
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 
-class ClientWrapper @Inject()(api: ApiClient)(implicit ec: ExecutionContext) extends Api {
+class ClientWrapper @Inject()(api: ApiClient) extends Api {
 
   def getEntry(entryId: String,
                dictionaryCode: Type = Dictionary.American,

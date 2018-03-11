@@ -25,19 +25,15 @@
 
 package client;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.*;
+import java.net.URLEncoder;
 
 /**
  * Light implementation of SkPublish API client.
@@ -77,16 +73,7 @@ public class SkPublishAPI {
     private RequestHandler requestHandler;
 
     /**
-     * Creates a new and unconfigured API client.
-     */
-    public SkPublishAPI() {
-        this(null, null, null);
-    }
-
-    /**
      * Creates a new API client with preconfigured URL and access key.
-     *
-     * It will use the default HTTP client, which is known to be not thread-safe.
      *
      * @param baseUrl
      *            the root URL of the SkPublish API.
@@ -94,26 +81,9 @@ public class SkPublishAPI {
      *            the access key to use.
      */
     public SkPublishAPI(String baseUrl, String accessKey) {
-        this(baseUrl, accessKey, null);
-    }
-
-    /**
-     * Creates a new API client with preconfigured URL and access key.
-     *
-     * @param baseUrl
-     *            the root URL of the SkPublish API.
-     * @param accessKey
-     *            the access key to use.
-     * @param httpClient
-     *            the preconfigured HTTP client to use.
-     */
-    public SkPublishAPI(String baseUrl, String accessKey, HttpClient httpClient) {
         setBaseUrl(baseUrl);
         setAccessKey(accessKey);
-        if (httpClient == null) {
-            setHttpClient(new DefaultHttpClient());
-        } else
-            setHttpClient(httpClient);
+        setHttpClient(new DefaultHttpClient());
     }
 
     /**
