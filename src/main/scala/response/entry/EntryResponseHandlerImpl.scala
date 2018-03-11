@@ -1,14 +1,15 @@
 package response.entry
 
-import model.common.{Dictionary, Entry}
+import javax.inject.Inject
+
+import model.common.Entry
 import repository.entry.EntryRepository
 import response.{MessageContext, MessageFormatter}
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
-class EntryResponseHandlerImpl(repository: EntryRepository)(implicit executionContext: ExecutionContext) extends EntryResponseHandler {
-
+class EntryResponseHandlerImpl @Inject()(repository: EntryRepository)(implicit executionContext: ExecutionContext) extends EntryResponseHandler {
 
   def handle(args: Seq[String])(implicit messageContext: MessageContext): Unit = {
     val word = args.headOption.getOrElse {

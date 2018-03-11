@@ -1,5 +1,7 @@
 package repository.entry.impl
 
+import javax.inject.Inject
+
 import dictionary.Api
 import model.common.{Dictionary, Entry, EntryContent}
 import play.api.libs.json.Json
@@ -8,7 +10,7 @@ import repository.entry.{EntryRepository, RawEntry}
 import scala.concurrent.{ExecutionContext, Future}
 import scala.xml.XML
 
-class EntryRepositoryImpl(clientWrapper: Api)(implicit ec: ExecutionContext) extends EntryRepository{
+class EntryRepositoryImpl @Inject()(clientWrapper: Api)(implicit ec: ExecutionContext) extends EntryRepository{
 
   def getEntry(entry: String, dictionary: Dictionary.Type = Dictionary.American): Future[Option[Entry]] = {
     clientWrapper.getEntry(entry)
