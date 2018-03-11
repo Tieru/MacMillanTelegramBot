@@ -7,7 +7,7 @@ case class Pronunciation(pronunciation: String, audio: Seq[PronunciationAudio], 
 object Pronunciation {
 
   def fromXml(node: Node): Pronunciation = {
-    val pronunciation = (node \ "PRON").text.replace("/", "")
+    val pronunciation = (node \ "PRON").text.trim
 
     val audio = node \ "audio"
     val region = audio \@ "region"

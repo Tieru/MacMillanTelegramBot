@@ -1,6 +1,4 @@
-package repository.entry.model
-
-import model.common.Topic
+package model.common
 
 case class Entry
 (

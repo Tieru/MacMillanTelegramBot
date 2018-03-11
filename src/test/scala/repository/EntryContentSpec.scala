@@ -1,7 +1,7 @@
-package repository.model
+package repository
 
+import model.common.EntryContent
 import org.scalatest.FlatSpec
-import repository.entry.model.EntryContent
 import tools.RawResourceLoader
 
 import scala.xml.XML
@@ -27,7 +27,7 @@ class EntryContentSpec extends FlatSpec with RawResourceLoader {
 
     val pronunciation = content.pronunciation
     assert(pronunciation.caption == "British English pronunciation: amazing")
-    assert(pronunciation.pronunciation == "əˈmeɪzɪŋ")
+    assert(pronunciation.pronunciation == "/əˈmeɪzɪŋ/")
     assert(pronunciation.region == "us")
     assert(pronunciation.audio.lengthCompare(2) == 0)
     assert(pronunciation.audio.head.`type` == "audio/mpeg")
@@ -49,7 +49,7 @@ class EntryContentSpec extends FlatSpec with RawResourceLoader {
     assert(sense1.examples.head.id == "amazing__2")
     assert(sense1.examples.head.example == "Her story was quite amazing.")
 
-    assert(sense1.meaning == "Making you feel surprised or amazed: ")
+    assert(sense1.meaning == "Making you feel surprised or amazed")
     assert(sense1.topic == "amazing__1")
 
     assert(sense1.synonyms.lengthCompare(10) == 0)

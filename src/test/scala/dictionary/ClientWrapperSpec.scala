@@ -1,5 +1,6 @@
 package dictionary
 
+import model.common.Dictionary
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FlatSpec
 
@@ -15,7 +16,7 @@ class ClientWrapperSpec extends FlatSpec with MockFactory {
   "Wrapper" should "return RawEntry object for 'entry' request" in {
 
     val expectedResult = "<>"
-    (client.getEntry _).expects(Api.AMERICAN, * , Api.XML).returning(expectedResult)
+    (client.getEntry _).expects(Dictionary.American.toString(), * , Api.XML).returning(expectedResult)
 
     val result = Await.result(wrapper.getEntry(""), Duration.Inf)
     assert(result == expectedResult)

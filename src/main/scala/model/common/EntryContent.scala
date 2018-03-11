@@ -1,7 +1,4 @@
-package repository.entry.model
-
-import entity.{Pronunciation, Sense}
-import model.common.{AdditionalEntryContent, Pronunciation, Sense}
+package model.common
 
 import scala.xml.Node
 
@@ -18,9 +15,9 @@ case class EntryContent
 object EntryContent {
 
   def fromXml(node: Node): EntryContent = {
-    val id = node \@ "ID"
+    val id = node \@ "ID".trim
     val stars = (node \ "HEAD" \ "H_S1" \ "STARS").text.length
-    val partOfSpeech = (node \ "HEAD" \ "H_S2" \ "PART-OF-SPEECH").text
+    val partOfSpeech = (node \ "HEAD" \ "H_S2" \ "PART-OF-SPEECH").text.trim
 
     val pronunciationNode = (node \ "HEAD" \ "H_S2" \ "PRONS").head
     val pronunciation = Pronunciation.fromXml(pronunciationNode)

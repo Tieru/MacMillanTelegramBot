@@ -24,14 +24,14 @@ object Sense {
       node \ "SENSE-CONTENT"
     }
 
-    val definition = (senseContentNode \ "DEFINITION").text.trim()
-    val style = (senseContentNode \ "STYLE-LEVEL").text
+    val definition = (senseContentNode \ "DEFINITION").text.trim
+    val style = (senseContentNode \ "STYLE-LEVEL").text.trim
 
     val examples: Seq[Example] = for {
       exampleNode <- senseContentNode \ "EXAMPLES"
     } yield Example.fromXml(exampleNode)
 
-    val meaning = senseContentNode \ "TXREF" \@ "txtitle"
+    val meaning = (senseContentNode \ "TXREF" \@ "txtitle").trim.replace(":", "")
     val topic = senseContentNode \ "TXREF" \@ "topic"
 
     val synonyms: Seq[Synonym] = for {

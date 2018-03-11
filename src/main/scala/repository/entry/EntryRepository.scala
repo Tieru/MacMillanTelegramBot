@@ -1,12 +1,13 @@
 package repository.entry
 
-import repository.entry.model.Entry
+
+import model.common.{Dictionary, Entry}
 
 import scala.concurrent.Future
 
 trait EntryRepository {
 
-  def getEntry(search: String): Future[Option[Entry]]
+  def getEntry(search: String, dictionary: Dictionary.Type = Dictionary.American): Future[Option[Entry]]
 
 }
 

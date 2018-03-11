@@ -1,4 +1,4 @@
-package repository.entry.model
+package repository.entry
 
 import model.common.Topic
 import play.api.libs.json.{Json, OFormat}

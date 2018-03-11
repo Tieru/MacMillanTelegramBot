@@ -15,11 +15,11 @@ case class AdditionalEntryContent
 object AdditionalEntryContent {
 
   def fromXml(node: Node): AdditionalEntryContent = {
-    val id = node \@ "ID"
-    val title = (node \ "SEP").text
-    val base = (node \ "R-HEAD" \ "ENTRY" \ "BASE").text
+    val id = node \@ "ID".trim
+    val title = (node \ "SEP").text.trim
+    val base = (node \ "R-HEAD" \ "ENTRY" \ "BASE").text.trim
     val pronunciation = Pronunciation.fromXml((node \ "R-HEAD" \ "PRONS").head)
-    val partOfSpeech = (node \ "R-HEAD" \ "PART-OF-SPEECH").text
+    val partOfSpeech = (node \ "R-HEAD" \ "PART-OF-SPEECH").text.trim
     val examples: Seq[Example] = for {
       exampleNode <- node \ "EXAMPLES"
     } yield Example.fromXml(exampleNode)
