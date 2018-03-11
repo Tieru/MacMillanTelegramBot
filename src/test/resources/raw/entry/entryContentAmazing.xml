@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <HOMOGRAPH ID="amazing" idm_id="000001531">
-    <HEAD xmlns:e="urn:IDMEE">
+    <HEAD>
         <H_S1>
             <MAINENTRY second-colour="yes">
                 <BASE>amazing</BASE>
@@ -99,10 +99,10 @@
         </SENSE-CONTENT>
     </SENSE>
     <RUNON ID="amazing__10">
-        <SEP xmlns:e="urn:IDMEE">derived word</SEP>
+        <SEP>derived word</SEP>
         <R-HEAD>
             <ENTRY>
-                <BASE xmlns:e="urn:IDMEE">amazingly</BASE>
+                <BASE>amazingly</BASE>
             </ENTRY>
             <PRONS>
                 <audio type="pronunciation" region="us" caption="British English pronunciation: amazingly">

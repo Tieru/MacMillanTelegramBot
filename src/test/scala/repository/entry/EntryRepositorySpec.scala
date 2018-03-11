@@ -1,4 +1,4 @@
-package repository
+package repository.entry
 
 import client.SkPublishAPIException
 import dictionary.Api
@@ -21,7 +21,7 @@ class EntryRepositorySpec extends FlatSpec with MockFactory with RawResourceLoad
   "Repository" should "get entries from wrapper" in {
 
     val requestedWord = "amazing"
-    val mockResponse = rawResource("raw/entryAmazing.json")
+    val mockResponse = rawResource("raw/entry/entryAmazing.json")
     (clientWrapper.getEntry _).expects(requestedWord, Dictionary.American, Api.XML).returning(Future.successful(mockResponse))
 
     val result = Await.result(repository.getEntry(requestedWord), Duration.Inf).getOrElse(throw new AssertionFailure("Repository should return a value"))

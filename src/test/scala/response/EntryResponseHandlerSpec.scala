@@ -29,7 +29,7 @@ class EntryResponseHandlerSpec extends FlatSpec with MockFactory with RawResourc
     val entryWord = "amazing"
     val expectedResponse = rawResource("response/amazingResponse.txt")
 
-    val rawInfo = rawResource("raw/entryAmazing.json")
+    val rawInfo = rawResource("raw/entry/entryAmazing.json")
     (clientWrapper.getEntry _).expects(entryWord, Dictionary.American, Api.XML).returning(Future.fromTry(Try {
       rawInfo
     }))

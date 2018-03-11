@@ -2,12 +2,6 @@ package dictionary
 
 import client.{SkPublishAPI, SkPublishAPIException}
 
-trait ApiClient {
-
-  @throws(classOf[SkPublishAPIException])
-  def getEntry(dictionaryCode: String, entryId: String, format: String): String
-}
-
 object DictionaryClient extends SkPublishAPI(ClientConfig.url, ClientConfig.apiKey) with ApiClient
 
 private object ClientConfig {
@@ -19,5 +13,15 @@ private object ClientConfig {
   val apiKey: String = scala.util.Properties
     .envOrNone("API_KEY")
     .getOrElse(throw new IllegalArgumentException("No API key"))
+
+}
+
+trait ApiClient {
+
+  @throws(classOf[SkPublishAPIException])
+  def getEntry(dictionaryCode: String, entryId: String, format: String): String
+
+  @throws(classOf[SkPublishAPIException])
+  def search(dictionaryCode: String, searchWord: String, pageSize: Integer, pageIndex: Integer): String
 
 }

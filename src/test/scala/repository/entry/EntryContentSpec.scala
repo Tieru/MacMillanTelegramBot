@@ -1,4 +1,4 @@
-package repository
+package repository.entry
 
 import model.common.EntryContent
 import org.scalatest.FlatSpec
@@ -15,7 +15,7 @@ class EntryContentSpec extends FlatSpec with RawResourceLoader {
   }
 
   "Entry" should "parse basic info" in {
-    val content = parseResource("raw/entryContentAmazing.xml")
+    val content = parseResource("raw/entry/entryContentAmazing.xml")
 
     assert(content.id == "amazing")
     assert(content.partOfSpeech == "adjective")
@@ -23,7 +23,7 @@ class EntryContentSpec extends FlatSpec with RawResourceLoader {
   }
 
   it should "parse pronunciation" in {
-    val content = parseResource("raw/entryContentAmazing.xml")
+    val content = parseResource("raw/entry/entryContentAmazing.xml")
 
     val pronunciation = content.pronunciation
     assert(pronunciation.caption == "British English pronunciation: amazing")
@@ -37,7 +37,7 @@ class EntryContentSpec extends FlatSpec with RawResourceLoader {
   }
 
   it should "parse sense" in {
-    val content = parseResource("raw/entryContentAmazing.xml")
+    val content = parseResource("raw/entry/entryContentAmazing.xml")
     val sense = content.sense
 
     val sense1 = sense.head
@@ -67,7 +67,7 @@ class EntryContentSpec extends FlatSpec with RawResourceLoader {
   }
 
   it should "parse additional content" in {
-    val content = parseResource("raw/entryContentAmazing.xml")
+    val content = parseResource("raw/entry/entryContentAmazing.xml")
     val additional = content.additionalEntryContent.head
 
     assert(additional.base == "amazingly")
