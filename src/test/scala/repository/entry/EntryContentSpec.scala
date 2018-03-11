@@ -25,7 +25,7 @@ class EntryContentSpec extends FlatSpec with RawResourceLoader {
   it should "parse pronunciation" in {
     val content = parseResource("raw/entry/entryContentAmazing.xml")
 
-    val pronunciation = content.pronunciation
+    val pronunciation = content.pronunciation.get
     assert(pronunciation.caption == "British English pronunciation: amazing")
     assert(pronunciation.pronunciation == "/əˈmeɪzɪŋ/")
     assert(pronunciation.region == "us")

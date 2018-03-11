@@ -7,7 +7,12 @@ object MessageFormatter {
   def formatEntry(entry: Entry): String = {
     val content = entry.entryContent
     val word = entry.entryLabel.capitalize
-    val pronunciation = content.pronunciation.pronunciation
+
+    val pronunciation = content.pronunciation match {
+      case Some(value) => value.pronunciation
+      case _ => ""
+    }
+
     val partOfSpeech = content.partOfSpeech.capitalize
 
     var text = word
