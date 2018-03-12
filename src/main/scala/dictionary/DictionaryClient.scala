@@ -22,6 +22,9 @@ trait ApiClient {
   def getEntry(dictionaryCode: String, entryId: String, format: String): String
 
   @throws(classOf[SkPublishAPIException])
+  def searchFirst(dictionaryCode: String, entryId: String, format: String): String
+
+  @throws(classOf[SkPublishAPIException])
   def search(dictionaryCode: String, searchWord: String, pageSize: Integer, pageIndex: Integer): String
 
 }

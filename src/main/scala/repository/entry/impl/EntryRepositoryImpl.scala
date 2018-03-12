@@ -15,7 +15,7 @@ import scala.xml.XML
 class EntryRepositoryImpl @Inject()(clientWrapper: Api)(implicit ec: ExecutionContext) extends EntryRepository {
 
   def getEntry(entry: String, dictionary: Dictionary.Type = Dictionary.American): Future[Option[Entry]] = {
-    clientWrapper.getEntry(entry)
+    clientWrapper.searchFirst(entry)
       .transformWith {
         case Success(raw) => Future.successful(rawEntryToEntry(raw))
         case Failure(cause) => cause match {

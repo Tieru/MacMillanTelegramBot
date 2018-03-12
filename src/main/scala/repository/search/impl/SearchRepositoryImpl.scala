@@ -12,8 +12,9 @@ import scala.util.{Failure, Success}
 
 class SearchRepositoryImpl @Inject()(api: Api)(implicit ec: ExecutionContext) extends SearchRepository {
 
-  def search(query: String, offset: Int, dictionary: Dictionary.Type = Dictionary.American): Future[Option[SearchResults]] = {
-    api.search(query, offset, dictionary=dictionary)
+  def search(query: String, offset: Int, count: Int = Api.defaultCount,
+             dictionary: Dictionary.Type = Dictionary.American): Future[Option[SearchResults]] = {
+    api.search(query, offset, count, dictionary=dictionary)
       .transformWith {
         case Success(raw) => Future.successful(parseSearchResult(raw))
         case Failure(cause) => cause match {

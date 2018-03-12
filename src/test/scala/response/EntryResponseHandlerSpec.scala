@@ -14,7 +14,6 @@ import tools.RawResourceLoader
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.util.Try
 
 class EntryResponseHandlerSpec extends FlatSpec with MockFactory with RawResourceLoader with Eventually with Matchers {
 
@@ -30,9 +29,7 @@ class EntryResponseHandlerSpec extends FlatSpec with MockFactory with RawResourc
     val expectedResponse = rawResource("response/amazingResponse.txt")
 
     val rawInfo = rawResource("raw/entry/entryAmazing.json")
-    (clientWrapper.getEntry _).expects(entryWord, Dictionary.American, Api.XML).returning(Future.fromTry(Try {
-      rawInfo
-    }))
+    (clientWrapper.searchFirst _).expects(entryWord, Dictionary.American, Api.XML).returning(Future.successful(rawInfo))
 
     val testResult = new TestResult[String]()
 
@@ -61,7 +58,6 @@ class EntryResponseHandlerSpec extends FlatSpec with MockFactory with RawResourc
     //todo find a way to test this
     Thread.sleep(500)
     testResult.result.get shouldBe expectedResponse
-
   }
 
 }

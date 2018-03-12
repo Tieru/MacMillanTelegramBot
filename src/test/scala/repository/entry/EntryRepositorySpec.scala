@@ -22,7 +22,7 @@ class EntryRepositorySpec extends FlatSpec with MockFactory with RawResourceLoad
 
     val requestedWord = "amazing"
     val mockResponse = rawResource("raw/entry/entryAmazing.json")
-    (clientWrapper.getEntry _).expects(requestedWord, Dictionary.American, Api.XML).returning(Future.successful(mockResponse))
+    (clientWrapper.searchFirst _).expects(requestedWord, Dictionary.American, Api.XML).returning(Future.successful(mockResponse))
 
     val result = Await.result(repository.getEntry(requestedWord), Duration.Inf).getOrElse(throw new AssertionFailure("Repository should return a value"))
     assert(result.dictionaryCode == Dictionary.American.toString)
@@ -36,7 +36,7 @@ class EntryRepositorySpec extends FlatSpec with MockFactory with RawResourceLoad
   it should "handle 404 status error from wrapper and return 'None'" in {
     val requestedWord = "amazing"
     val exception = new SkPublishAPIException(404, "")
-    (clientWrapper.getEntry _).expects(requestedWord, Dictionary.American, Api.XML).returning(Future.failed(exception))
+    (clientWrapper.searchFirst _).expects(requestedWord, Dictionary.American, Api.XML).returning(Future.failed(exception))
 
     val result = Await.result(repository.getEntry(requestedWord), Duration.Inf)
 
