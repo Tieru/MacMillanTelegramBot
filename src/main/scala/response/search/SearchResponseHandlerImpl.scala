@@ -20,6 +20,7 @@ class SearchResponseHandlerImpl @Inject()(repository: SearchRepository)(implicit
     logger.info(f"Inline query: $query, offset: $offset")
 
     if (query.length < 2) {
+      context.request(Seq())
       return
     }
 

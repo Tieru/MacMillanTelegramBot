@@ -7,7 +7,7 @@ case class RawEntry
 (
   entryId: String,
   entryLabel: String,
-  topics: Array[Topic],
+  topics: Seq[Topic],
   entryUrl: String,
   format: String,
   dictionaryCode: String,

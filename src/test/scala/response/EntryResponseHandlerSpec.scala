@@ -8,7 +8,7 @@ import org.scalamock.scalatest.MockFactory
 import org.scalatest.concurrent.Eventually
 import org.scalatest.{FlatSpec, Matchers}
 import repository.entry.EntryRepository
-import repository.entry.impl.EntryRepositoryImpl
+import repository.entry.impl.{EntryCacheImpl, EntryRepositoryImpl}
 import response.entry.EntryResponseHandlerImpl
 import tools.RawResourceLoader
 
@@ -18,7 +18,8 @@ import scala.concurrent.Future
 class EntryResponseHandlerSpec extends FlatSpec with MockFactory with RawResourceLoader with Eventually with Matchers {
 
   private val clientWrapper = mock[Api]
-  private val entryRepository = new EntryRepositoryImpl(clientWrapper)
+  private val cache = new EntryCacheImpl()
+  private val entryRepository = new EntryRepositoryImpl(clientWrapper, cache)
 
   private val mockRepository = mock[EntryRepository]
   private val entryResponseHandler = new EntryResponseHandlerImpl(entryRepository)

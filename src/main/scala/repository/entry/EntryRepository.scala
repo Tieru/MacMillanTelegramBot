@@ -9,6 +9,8 @@ trait EntryRepository {
 
   def getEntry(search: String, dictionary: Dictionary.Type = Dictionary.American): Future[Option[Entry]]
 
+  def searchFirst(search: String, dictionary: Dictionary.Type = Dictionary.American): Future[Option[Entry]]
+
 }
 
 

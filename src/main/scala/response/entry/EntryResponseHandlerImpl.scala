@@ -20,7 +20,7 @@ class EntryResponseHandlerImpl @Inject()(repository: EntryRepository)(implicit e
       return
     }
 
-    repository.getEntry(word.toLowerCase)
+    repository.searchFirst(word.toLowerCase)
       .transformWith {
         case Success(result) => processRepositoryResponse(result)
         case Failure(cause) =>

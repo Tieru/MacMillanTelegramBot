@@ -4,7 +4,7 @@ case class Entry
 (
   entryId: String,
   entryLabel: String,
-  topics: Array[Topic],
+  topics: Seq[Topic],
   entryUrl: String,
   dictionaryCode: String,
   entryContent: EntryContent
