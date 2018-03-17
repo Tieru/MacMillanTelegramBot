@@ -17,6 +17,12 @@ import scala.concurrent.Future
 
 class EntryResponseHandlerSpec extends FlatSpec with MockFactory with RawResourceLoader with Eventually with Matchers {
 
+  private class TestResult[T] {
+
+    var result: Option[T] = None
+
+  }
+
   private val clientWrapper = mock[Api]
   private val cache = new EntryCacheImpl()
   private val entryRepository = new EntryRepositoryImpl(clientWrapper, cache)
@@ -60,11 +66,5 @@ class EntryResponseHandlerSpec extends FlatSpec with MockFactory with RawResourc
     Thread.sleep(500)
     testResult.result.get shouldBe expectedResponse
   }
-
-}
-
-private class TestResult[T] {
-
-  var result: Option[T] = None
 
 }

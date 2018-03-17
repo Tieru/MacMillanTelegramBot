@@ -8,7 +8,7 @@ import repository.entry.impl.{EntryCache, EntryCacheImpl, EntryRepositoryImpl}
 import repository.search.SearchRepository
 import repository.search.impl.SearchRepositoryImpl
 import response.entry.{EntryResponseHandler, EntryResponseHandlerImpl}
-import response.search.{SearchResponseHandler, SearchResponseHandlerImpl}
+import response.search.{EntriesSearchFetcher, EntriesSearchResultsFetcherImpl, SearchResponseHandler, SearchResponseHandlerImpl}
 
 import scala.concurrent.ExecutionContext
 
@@ -23,7 +23,9 @@ class ApplicationModule extends AbstractModule with ScalaModule {
     bind[Api].to[ClientWrapper].asEagerSingleton()
 
     bind[SearchRepository].to[SearchRepositoryImpl].asEagerSingleton()
+    bind[EntriesSearchFetcher].to[EntriesSearchResultsFetcherImpl].asEagerSingleton()
     bind[SearchResponseHandler].to[SearchResponseHandlerImpl].asEagerSingleton()
+
 
     bind[EntryCache].to[EntryCacheImpl].asEagerSingleton()
     bind[EntryRepository].to[EntryRepositoryImpl].asEagerSingleton()

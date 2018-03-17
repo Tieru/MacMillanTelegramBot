@@ -5,13 +5,13 @@ import javax.inject.Inject
 import com.typesafe.scalalogging.Logger
 import info.mukel.telegrambot4s.methods.ParseMode
 import info.mukel.telegrambot4s.models.{InlineQueryResultArticle, InputTextMessageContent}
-import repository.search.{SearchRepository, SearchResults}
-import response.InlineQueryContext
+import model.common.Entry
+import response.{InlineQueryContext, MessageFormatter}
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Failure, Success}
 
-class SearchResponseHandlerImpl @Inject()(repository: SearchRepository)(implicit ec: ExecutionContext) extends SearchResponseHandler {
+class SearchResponseHandlerImpl @Inject()(entriesSearchFetcher: EntriesSearchFetcher)(implicit ec: ExecutionContext) extends SearchResponseHandler {
 
   private val logger = Logger(classOf[SearchResponseHandlerImpl])
 
@@ -24,7 +24,7 @@ class SearchResponseHandlerImpl @Inject()(repository: SearchRepository)(implicit
       return
     }
 
-    repository.search(query.toLowerCase, offset)
+    entriesSearchFetcher.findEntries(query.toLowerCase(), offset)
       .transformWith {
         case Success(result) => Future.successful(processRepositoryResponse(result))
         case Failure(cause) =>
@@ -38,17 +38,13 @@ class SearchResponseHandlerImpl @Inject()(repository: SearchRepository)(implicit
       })
   }
 
-  private def processRepositoryResponse(search: Option[SearchResults]): Seq[InlineQueryResultArticle] = {
-
-    val searchResults = search.getOrElse {
-      return Seq()
-    }
+  private def processRepositoryResponse(entries: Seq[Entry]): Seq[InlineQueryResultArticle] = {
 
     for {
-      result <- searchResults.results
+      entry <- entries
     } yield {
-      val content = InputTextMessageContent("/word " + result.entryId, Option(ParseMode.Markdown))
-      InlineQueryResultArticle(result.entryId, result.entryLabel, content)
+      val content = InputTextMessageContent(MessageFormatter.formatEntry(entry), Option(ParseMode.Markdown))
+      InlineQueryResultArticle(entry.entryId, entry.entryLabel, content)
     }
 
   }

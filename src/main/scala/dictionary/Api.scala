@@ -25,6 +25,6 @@ object Api {
   val XML = "xml"
   val HTML = "html"
 
-  val defaultCount = 10
+  val defaultCount = 5
 
 }

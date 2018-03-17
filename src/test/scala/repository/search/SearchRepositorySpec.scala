@@ -19,18 +19,18 @@ class SearchRepositorySpec extends FlatSpec with MockFactory with RawResourceLoa
   "Repository" should "retrieve results from api" in {
     val searchQuery = "power"
     val pageIndex = 1
-    val count = 10
+    val count = 5
 
-    val rawResponse = rawResource("raw/search/power_1_10.json")
+    val rawResponse = rawResource("raw/search/power_1_5.json")
     (clientWrapper.search _).expects(searchQuery, pageIndex, count, Dictionary.American).returning(Future.successful(rawResponse))
 
     val result = Await.result(repository.search(searchQuery, pageIndex), Duration.Inf).get
     assert(result.currentPageIndex == 1)
-    assert(result.pageNumber == 5)
+    assert(result.pageNumber == 9)
     assert(result.dictionaryCode == Dictionary.American.toString)
     assert(result.resultNumber == 44)
 
-    assert(result.results.lengthCompare(10) == 0)
+    assert(result.results.lengthCompare(count) == 0)
     val headSearchResult = result.results.head
     assert(headSearchResult.entryLabel == "power  noun")
     assert(headSearchResult.entryUrl == "https://www.macmillandictionary.com/dictionary/american/power_1")

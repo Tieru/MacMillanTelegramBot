@@ -1,5 +1,5 @@
 {
-  "pageNumber": 5,
+  "pageNumber": 9,
   "dictionaryCode": "american",
   "resultNumber": 44,
   "results": [
@@ -27,31 +27,6 @@
       "entryLabel": "air power  noun",
       "entryUrl": "https://www.macmillandictionary.com/dictionary/american/air-power",
       "entryId": "air-power"
-    },
-    {
-      "entryLabel": "power cut  noun",
-      "entryUrl": "https://www.macmillandictionary.com/dictionary/american/power-cut",
-      "entryId": "power-cut"
-    },
-    {
-      "entryLabel": "power nap  noun",
-      "entryUrl": "https://www.macmillandictionary.com/dictionary/american/power-nap",
-      "entryId": "power-nap"
-    },
-    {
-      "entryLabel": "sea power  noun",
-      "entryUrl": "https://www.macmillandictionary.com/dictionary/american/sea-power",
-      "entryId": "sea-power"
-    },
-    {
-      "entryLabel": "Black Power  noun",
-      "entryUrl": "https://www.macmillandictionary.com/dictionary/american/black-power",
-      "entryId": "black-power"
-    },
-    {
-      "entryLabel": "power down phrasal verb",
-      "entryUrl": "https://www.macmillandictionary.com/dictionary/american/power-down",
-      "entryId": "power-down"
     }
   ],
   "currentPageIndex": 1
