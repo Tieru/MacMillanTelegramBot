@@ -2,10 +2,9 @@ package repository.entry.impl
 
 import javax.inject.Inject
 
+import api.Api
 import client.SkPublishAPIException
-import dictionary.Api
 import model.common.{Dictionary, Entry, EntryContent}
-import play.api.libs.json.Json
 import repository.entry.{EntryRepository, RawEntry}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -24,7 +23,7 @@ class EntryRepositoryImpl @Inject()(clientWrapper: Api, cache: EntryCache)(impli
   private def loadEntry(entry: String, dictionary: Dictionary.Type = Dictionary.American): Future[Option[Entry]] = {
     clientWrapper.getEntry(entry, dictionary)
       .transformWith {
-        case Success(raw) => Future.successful(rawEntryToEntry(raw))
+        case Success(raw) => Future.successful(Option(parseEntryContent(raw)))
         case Failure(cause) => cause match {
           case e: SkPublishAPIException => handleApiFailure(e)
           case _ => Future.failed(cause)
@@ -46,7 +45,7 @@ class EntryRepositoryImpl @Inject()(clientWrapper: Api, cache: EntryCache)(impli
   def searchFirst(entry: String, dictionary: Dictionary.Type = Dictionary.American): Future[Option[Entry]] = {
     clientWrapper.searchFirst(entry, dictionary)
       .transformWith {
-        case Success(raw) => Future.successful(rawEntryToEntry(raw))
+        case Success(raw) => Future.successful(Option(parseEntryContent(raw)))
         case Failure(cause) => cause match {
           case e: SkPublishAPIException => handleApiFailure(e)
           case _ => Future.failed(cause)
@@ -58,14 +57,6 @@ class EntryRepositoryImpl @Inject()(clientWrapper: Api, cache: EntryCache)(impli
     e.getStatusCode match {
       case 404 => Future.successful(None)
       case _ => Future.failed(e)
-    }
-  }
-
-  private def rawEntryToEntry(raw: String): Option[Entry] = {
-    val rawEntry = Json.parse(raw).validate[RawEntry].asOpt
-    rawEntry match {
-      case None => None
-      case Some(value) => Option(parseEntryContent(value))
     }
   }
 

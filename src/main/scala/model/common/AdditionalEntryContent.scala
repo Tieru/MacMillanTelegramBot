@@ -7,7 +7,7 @@ case class AdditionalEntryContent
   id: String,
   title: String,
   base: String,
-  pronunciation: Pronunciation,
+  pronunciation: Option[Pronunciation],
   partOfSpeech: String,
   examples: Seq[Example]
 )
@@ -18,7 +18,12 @@ object AdditionalEntryContent {
     val id = node \@ "ID".trim
     val title = (node \ "SEP").text.trim
     val base = (node \ "R-HEAD" \ "ENTRY" \ "BASE").text.trim
-    val pronunciation = Pronunciation.fromXml((node \ "R-HEAD" \ "PRONS").head)
+
+    val pronunciation: Option[Pronunciation] = (node \ "R-HEAD" \ "PRONS").headOption match {
+      case Some(value) => Option(Pronunciation.fromXml(value))
+      case _ => None
+    }
+
     val partOfSpeech = (node \ "R-HEAD" \ "PART-OF-SPEECH").text.trim
     val examples: Seq[Example] = for {
       exampleNode <- node \ "EXAMPLES"

@@ -14,14 +14,10 @@ class EntriesSearchResultsFetcherImpl @Inject()(searchRepository: SearchReposito
     searchRepository.search(query, offset).flatMap(mapSearchResults)
   }
 
-  private def mapSearchResults(searchResults: Option[SearchResults]): Future[Seq[Entry]] = {
-    val results = searchResults.getOrElse {
-      return Future.successful(Seq())
-    }.results
-
+  private def mapSearchResults(searchResults: SearchResults): Future[Seq[Entry]] = {
 
     val entries: Seq[Future[Option[Entry]]] = for {
-      result <- results
+      result <- searchResults.results
     } yield entryRepository.getEntry(result.entryId)
 
     Future.sequence(entries).map(_.flatten)

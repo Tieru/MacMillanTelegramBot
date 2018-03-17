@@ -1,14 +1,14 @@
 package response
 
-import dictionary.Api
+import api.Api
 import info.mukel.telegrambot4s.methods.ParseMode.ParseMode
 import info.mukel.telegrambot4s.models.ReplyMarkup
 import model.common.Dictionary
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.concurrent.Eventually
 import org.scalatest.{FlatSpec, Matchers}
-import repository.entry.EntryRepository
 import repository.entry.impl.{EntryCacheImpl, EntryRepositoryImpl}
+import repository.entry.{EntryRepository, TestEntities}
 import response.entry.EntryResponseHandlerImpl
 import tools.RawResourceLoader
 
@@ -35,8 +35,8 @@ class EntryResponseHandlerSpec extends FlatSpec with MockFactory with RawResourc
     val entryWord = "amazing"
     val expectedResponse = rawResource("response/amazingResponse.txt")
 
-    val rawInfo = rawResource("raw/entry/entryAmazing.json")
-    (clientWrapper.searchFirst _).expects(entryWord, Dictionary.American, Api.XML).returning(Future.successful(rawInfo))
+    val rawInfo = TestEntities.rawEntryFromResources("raw/entry/entryAmazing.json")
+    (clientWrapper.searchFirst _).expects(entryWord, Dictionary.American).returning(Future.successful(rawInfo))
 
     val testResult = new TestResult[String]()
 

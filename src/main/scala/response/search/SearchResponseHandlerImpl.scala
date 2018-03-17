@@ -3,7 +3,6 @@ package response.search
 import javax.inject.Inject
 
 import com.typesafe.scalalogging.Logger
-import info.mukel.telegrambot4s.methods.ParseMode
 import info.mukel.telegrambot4s.models.{InlineQueryResultArticle, InputTextMessageContent}
 import model.common.Entry
 import response.{InlineQueryContext, MessageFormatter}
@@ -43,7 +42,11 @@ class SearchResponseHandlerImpl @Inject()(entriesSearchFetcher: EntriesSearchFet
     for {
       entry <- entries
     } yield {
-      val content = InputTextMessageContent(MessageFormatter.formatEntry(entry), Option(ParseMode.Markdown))
+      var message = MessageFormatter.formatEntry(entry)
+      if (message.length > 4096) {
+        message = message.substring(0, 4095)
+      }
+      val content = InputTextMessageContent(message)
       InlineQueryResultArticle(entry.entryId, entry.entryLabel, content)
     }
 

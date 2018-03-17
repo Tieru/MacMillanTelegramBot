@@ -1,7 +1,7 @@
 package repository.entry
 
+import api.Api
 import client.SkPublishAPIException
-import dictionary.Api
 import model.common.{Dictionary, Entry, EntryContent}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FlatSpec
@@ -30,7 +30,7 @@ class EntryRepositorySpec extends FlatSpec with MockFactory with RawResourceLoad
     val entry = Entry(entryId, entryId, Seq(), entryUrl, dictionaryCode, entryContent)
 
     (cache.get _).expects(entryId).returning(Option(entry))
-    (clientWrapper.getEntry _).expects(entryId, Dictionary.American, Api.XML).returning(Future.successful("")).never()
+    (clientWrapper.getEntry _).expects(entryId, Dictionary.American)/*.returning(Future.successful(*))*/.never()
 
     val result = Await.result(repository.getEntry(entryId), Duration.Inf).get
     assert(result == entry)
@@ -38,9 +38,9 @@ class EntryRepositorySpec extends FlatSpec with MockFactory with RawResourceLoad
 
   it should "take request data from server when no cached value available for entry" in {
     val requestedWord = "amazing"
-    val mockResponse = rawResource("raw/entry/entryAmazing.json")
+    val mockResponse = TestEntities.rawEntryFromResources("raw/entry/entryAmazing.json")
     (cache.get _).expects(*).returning(None)
-    (clientWrapper.getEntry _).expects(requestedWord, Dictionary.American, Api.XML).returning(Future.successful(mockResponse))
+    (clientWrapper.getEntry _).expects(requestedWord, Dictionary.American).returning(Future.successful(mockResponse))
     (cache.store _).expects(*)
 
     val result = Await.result(repository.getEntry(requestedWord), Duration.Inf).getOrElse(throw new AssertionFailure("Repository should return a value"))
@@ -54,14 +54,14 @@ class EntryRepositorySpec extends FlatSpec with MockFactory with RawResourceLoad
 
   it should "cache data for successfully fetched results" in {
     val requestedWord = "amazing"
-    val mockResponse = rawResource("raw/entry/entryAmazing.json")
+    val mockResponse = TestEntities.rawEntryFromResources("raw/entry/entryAmazing.json")
 
     inSequence {
       (cache.get _).expects(requestedWord).returning(None)
-      (clientWrapper.getEntry _).expects(requestedWord, Dictionary.American, Api.XML).returning(Future.successful(mockResponse))
+      (clientWrapper.getEntry _).expects(requestedWord, Dictionary.American).returning(Future.successful(mockResponse))
       (cache.store _).expects(*)
-      (cache.get _).expects(requestedWord).returning(Option(CommonEntries.createEntry(requestedWord)))
-      (clientWrapper.getEntry _).expects(requestedWord, Dictionary.American, Api.XML).returning(Future.successful("")).never()
+      (cache.get _).expects(requestedWord).returning(Option(TestEntities.createEntry(requestedWord)))
+      (clientWrapper.getEntry _).expects(requestedWord, Dictionary.American).never()
     }
 
     Await.result(repository.getEntry(requestedWord), Duration.Inf).getOrElse(throw new AssertionFailure("Repository should return a value"))
@@ -74,8 +74,8 @@ class EntryRepositorySpec extends FlatSpec with MockFactory with RawResourceLoad
   it should "get entries from wrapper" in {
 
     val requestedWord = "amazing"
-    val mockResponse = rawResource("raw/entry/entryAmazing.json")
-    (clientWrapper.searchFirst _).expects(requestedWord, Dictionary.American, Api.XML).returning(Future.successful(mockResponse))
+    val mockResponse = TestEntities.rawEntryFromResources("raw/entry/entryAmazing.json")
+    (clientWrapper.searchFirst _).expects(requestedWord, Dictionary.American).returning(Future.successful(mockResponse))
 
     val result = Await.result(repository.searchFirst(requestedWord), Duration.Inf).getOrElse(throw new AssertionFailure("Repository should return a value"))
     assert(result.dictionaryCode == Dictionary.American.toString)
@@ -89,7 +89,7 @@ class EntryRepositorySpec extends FlatSpec with MockFactory with RawResourceLoad
   it should "handle 404 status error from wrapper and return 'None'" in {
     val requestedWord = "amazing"
     val exception = new SkPublishAPIException(404, "")
-    (clientWrapper.searchFirst _).expects(requestedWord, Dictionary.American, Api.XML).returning(Future.failed(exception))
+    (clientWrapper.searchFirst _).expects(requestedWord, Dictionary.American).returning(Future.failed(exception))
 
     val result = Await.result(repository.searchFirst(requestedWord), Duration.Inf)
 

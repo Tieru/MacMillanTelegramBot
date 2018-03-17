@@ -18,7 +18,7 @@ class EntryCacheSpec extends FlatSpec with RawResourceLoader {
 
     val entryId = "amazing"
 
-    val entry = CommonEntries.createEntry(entryId)
+    val entry = TestEntities.createEntry(entryId)
     cache.store(entry)
 
     val result = cache.get(entryId).get

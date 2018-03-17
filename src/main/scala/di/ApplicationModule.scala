@@ -1,7 +1,7 @@
 package di
 
+import api.{Api, ApiClient}
 import com.google.inject.AbstractModule
-import dictionary.{Api, ApiClient, ClientWrapper, DictionaryClient}
 import net.codingwell.scalaguice.ScalaModule
 import repository.entry.EntryRepository
 import repository.entry.impl.{EntryCache, EntryCacheImpl, EntryRepositoryImpl}
@@ -19,8 +19,7 @@ class ApplicationModule extends AbstractModule with ScalaModule {
     //probably shouldn't be here
     bind[ExecutionContext].toInstance(ExecutionContext.Implicits.global)
 
-    bind[ApiClient].toInstance(DictionaryClient)
-    bind[Api].to[ClientWrapper].asEagerSingleton()
+    bind[Api].to[ApiClient].asEagerSingleton()
 
     bind[SearchRepository].to[SearchRepositoryImpl].asEagerSingleton()
     bind[EntriesSearchFetcher].to[EntriesSearchResultsFetcherImpl].asEagerSingleton()

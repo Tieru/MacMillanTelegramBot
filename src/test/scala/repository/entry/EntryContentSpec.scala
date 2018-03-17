@@ -73,7 +73,7 @@ class EntryContentSpec extends FlatSpec with RawResourceLoader {
     assert(additional.base == "amazingly")
     assert(additional.id == "amazing__10")
     assert(additional.title == "derived word")
-    assert(additional.pronunciation.pronunciation == "")
+    assert(additional.pronunciation.get.pronunciation == "")
   }
 
 }

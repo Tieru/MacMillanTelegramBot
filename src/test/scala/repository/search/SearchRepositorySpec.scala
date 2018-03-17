@@ -1,9 +1,10 @@
 package repository.search
 
-import dictionary.Api
+import api.Api
 import model.common.Dictionary
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FlatSpec
+import repository.entry.TestEntities
 import repository.search.impl.SearchRepositoryImpl
 import tools.RawResourceLoader
 
@@ -21,10 +22,10 @@ class SearchRepositorySpec extends FlatSpec with MockFactory with RawResourceLoa
     val pageIndex = 1
     val count = 5
 
-    val rawResponse = rawResource("raw/search/power_1_5.json")
+    val rawResponse = TestEntities.searchResultsFromResources("raw/search/power_1_5.json")
     (clientWrapper.search _).expects(searchQuery, pageIndex, count, Dictionary.American).returning(Future.successful(rawResponse))
 
-    val result = Await.result(repository.search(searchQuery, pageIndex), Duration.Inf).get
+    val result = Await.result(repository.search(searchQuery, pageIndex), Duration.Inf)
     assert(result.currentPageIndex == 1)
     assert(result.pageNumber == 9)
     assert(result.dictionaryCode == Dictionary.American.toString)

@@ -1,12 +1,11 @@
 package response
 
-import dictionary.Api
+import api.Api
 import model.common.Dictionary
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.FlatSpec
-import play.api.libs.json.Json
-import repository.entry.{CommonEntries, EntryRepository}
-import repository.search.{SearchRepository, SearchResults}
+import repository.entry.{EntryRepository, TestEntities}
+import repository.search.SearchRepository
 import response.search.EntriesSearchResultsFetcherImpl
 import tools.RawResourceLoader
 
@@ -26,18 +25,17 @@ class EntriesSearchFetcherSpec extends FlatSpec with MockFactory with RawResourc
     val query = "power"
     val offset = 0
 
-    val searchResponse = rawResource("raw/search/power_1_5.json")
-    val searchResult = Json.parse(searchResponse).validate[SearchResults].asOpt
-    val searchEntries = searchResult.get.results
+    val searchResult = TestEntities.searchResultsFromResources("raw/search/power_1_5.json")
+    val searchEntries = searchResult.results
 
-    val entryPower1 = Option(CommonEntries.fromResourceFile("raw/entry/entryPower_1.json"))
-    val entryPower2 = Option(CommonEntries.fromResourceFile("raw/entry/entryPower_2.json"))
-    val entryPower3 = Option(CommonEntries.fromResourceFile("raw/entry/entryPower_3.json"))
-    val entryPowerUp = Option(CommonEntries.fromResourceFile("raw/entry/entryPower-up.json"))
-    val entryAirPower = Option(CommonEntries.fromResourceFile("raw/entry/entryAir-power.json"))
+    val entryPower1 = Option(TestEntities.entryFromResources("raw/entry/entryPower_1.json"))
+    val entryPower2 = Option(TestEntities.entryFromResources("raw/entry/entryPower_2.json"))
+    val entryPower3 = Option(TestEntities.entryFromResources("raw/entry/entryPower_3.json"))
+    val entryPowerUp = Option(TestEntities.entryFromResources("raw/entry/entryPower-up.json"))
+    val entryAirPower = Option(TestEntities.entryFromResources("raw/entry/entryAir-power.json"))
 
     inSequence {
-      (searchRepository.search _).expects(query, offset, Api.defaultCount, Dictionary.American).returning(Future.successful(searchResult))
+      (searchRepository.search _).expects(query, offset, Api.defaultSearchCount, Dictionary.American).returning(Future.successful(searchResult))
       (entryRepository.getEntry _).expects(searchEntries.head.entryId, Dictionary.American).returning(Future.successful(entryPower1))
       (entryRepository.getEntry _).expects(searchEntries.apply(1).entryId, Dictionary.American).returning(Future.successful(entryPower2))
       (entryRepository.getEntry _).expects(searchEntries.apply(2).entryId, Dictionary.American).returning(Future.successful(entryPower3))
