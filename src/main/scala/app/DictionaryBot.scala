@@ -1,6 +1,7 @@
 package app
 
 import com.google.inject.Guice
+import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.Logger
 import di.ApplicationModule
 import info.mukel.telegrambot4s.api.declarative.Commands
@@ -13,15 +14,13 @@ import response.{BotInlineQueryContext, BotMessageContext, InlineQueryContext, M
 
 object DictionaryBot extends TelegramBot with Polling with Commands {
 
-  private val logger = Logger("Bot")
+  private val botLogger = Logger("Bot")
 
   import net.codingwell.scalaguice.InjectorExtensions._
 
   private val injector = Guice.createInjector(new ApplicationModule())
 
-  override def token: String = scala.util.Properties
-    .envOrNone("BOT_TOKEN")
-    .getOrElse(throw new IllegalArgumentException("No Bot token found"))
+  override def token: String = ConfigFactory.load().getString("bot.token")
 
   onCommand("/word") { implicit msg =>
     withArgs { args =>
@@ -42,5 +41,5 @@ object DictionaryBot extends TelegramBot with Polling with Commands {
     handler.handle(query, offset)(context)
   }
 
-  logger.info("Bot started successfully")
+  botLogger.info("Bot started successfully")
 }

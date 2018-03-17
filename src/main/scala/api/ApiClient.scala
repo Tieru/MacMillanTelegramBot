@@ -11,6 +11,7 @@ import akka.http.scaladsl.model.headers.RawHeader
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.stream.ActorMaterializer
 import client.SkPublishAPIException
+import com.typesafe.config.ConfigFactory
 import model.common.Dictionary
 import model.common.Dictionary.Type
 import play.api.libs.json.Json
@@ -24,13 +25,8 @@ class ApiClient @Inject()(implicit ec: ExecutionContext) extends Api {
   implicit val system: ActorSystem = ActorSystem("DictionaryApiClient")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
 
-  private val url = scala.util.Properties
-    .envOrNone("API_URL")
-    .getOrElse(throw new IllegalArgumentException("No API URL"))
-
-  private val apiKey: String = scala.util.Properties
-    .envOrNone("API_KEY")
-    .getOrElse(throw new IllegalArgumentException("No API key"))
+  private val url = ConfigFactory.load().getString("api.url")
+  private val apiKey: String = ConfigFactory.load().getString("api.key")
 
   def getEntry(entryId: String, dictionaryCode: Type = Dictionary.American): Future[RawEntry] = {
 
