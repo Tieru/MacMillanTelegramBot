@@ -34,7 +34,6 @@ class SearchRepositorySpec extends FlatSpec with MockFactory with RawResourceLoa
     assert(result.results.lengthCompare(count) == 0)
     val headSearchResult = result.results.head
     assert(headSearchResult.entryLabel == "power  noun")
-    assert(headSearchResult.entryUrl == "https://www.macmillandictionary.com/dictionary/american/power_1")
     assert(headSearchResult.entryId == "power_1")
   }
 

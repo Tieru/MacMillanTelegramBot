@@ -23,11 +23,10 @@ class EntryRepositorySpec extends FlatSpec with MockFactory with RawResourceLoad
   "Repository" should "try to get results from cache first for particular entry request" in {
 
     val entryId = "amazing123456"
-    val entryUrl = "url"
     val dictionaryCode = "american"
 
     val entryContent = EntryContent.fromXml(XML.loadString(rawResource("raw/entry/entryContentAmazing.xml")))
-    val entry = Entry(entryId, entryId, Seq(), entryUrl, dictionaryCode, entryContent)
+    val entry = Entry(entryId, entryId, Seq(), dictionaryCode, entryContent)
 
     (cache.get _).expects(entryId).returning(Option(entry))
     (clientWrapper.getEntry _).expects(entryId, Dictionary.American)/*.returning(Future.successful(*))*/.never()

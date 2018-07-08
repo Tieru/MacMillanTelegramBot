@@ -62,7 +62,7 @@ class EntryRepositoryImpl @Inject()(clientWrapper: Api, cache: EntryCache)(impli
 
   private def parseEntryContent(rawEntry: RawEntry): Entry = {
     val entryContent = EntryContent.fromXml(XML.loadString(rawEntry.entryContent))
-    Entry(rawEntry.entryId, rawEntry.entryLabel, rawEntry.topics, rawEntry.entryUrl, rawEntry.dictionaryCode, entryContent)
+    Entry(rawEntry.entryId, rawEntry.entryLabel, rawEntry.topics, rawEntry.dictionaryCode, entryContent)
   }
 
 }

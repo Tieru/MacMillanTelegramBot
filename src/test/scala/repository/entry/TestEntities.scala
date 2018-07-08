@@ -15,13 +15,13 @@ object TestEntities extends RawResourceLoader {
     val dictionaryCode = "american"
 
     val entryContent = EntryContent.fromXml(XML.loadString(rawResource("raw/entry/entryContentAmazing.xml")))
-    Entry(entryId, entryId, Seq(), entryUrl, dictionaryCode, entryContent)
+    Entry(entryId, entryId, Seq(), dictionaryCode, entryContent)
   }
 
   def entryFromResources(path: String): Entry = {
     val rawEntry = rawEntryFromResources(path)
     val entryContent = EntryContent.fromXml(XML.loadString(rawEntry.entryContent))
-    Entry(entryContent.id, entryContent.id, Seq(), "url", "american", entryContent)
+    Entry(entryContent.id, entryContent.id, Seq(), "american", entryContent)
   }
 
   def rawEntryFromResources(path: String): RawEntry = {

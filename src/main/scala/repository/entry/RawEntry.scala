@@ -8,7 +8,6 @@ case class RawEntry
   entryId: String,
   entryLabel: String,
   topics: Seq[Topic],
-  entryUrl: String,
   format: String,
   dictionaryCode: String,
   entryContent: String
